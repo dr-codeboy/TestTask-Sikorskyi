@@ -32,7 +32,7 @@ public abstract class BasePage {
         menu.click();
         // абсолютный путь на электроинструменты за 2 дня 2 раза поменялся в самом DOMe
         try {
-            WebElement electroinstrument = driver.findElement(By.xpath("//*[text()=='Электроинструмент']"));
+            WebElement electroinstrument = driver.findElement(By.xpath("//*[text()='Электроинструмент']"));
             electroinstrument.click();
             Thread.sleep(1000);
         }

@@ -14,7 +14,7 @@ public class SearchPage extends BasePage {
     @Test
     public void testDiscountDrillsPrices() throws InterruptedException {
 
-        WebElement drill = getDriver().findElement(By.xpath("//a[@title='Дрели']"));
+        WebElement drill = getDriver().findElement(By.xpath("//a[text()='Дрели']"));
         drill.click();
         Thread.sleep(1000);
         int i = 1;
