@@ -8,7 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.*;
 
 public abstract class BasePage {
-    public static int requiredNumberOfPagesTest1 = 3; // тест выдаст ошибку при значении переменной больше 5(пяти), из за того что на первых двух страницах больше нету акционных товаров.
+    public static int requiredNumberOfProductsTest1 = 3; // тест выдаст ошибку при значении переменной больше 5(пяти), из за того что на первых двух страницах больше нету акционных товаров.
     public static int requiredNumberOfPagesTest2 = 1;
     public static int requiredNumberOfPagesTest3 = 3;
     public static int requiredNumberOfPagesTest4 = 2;

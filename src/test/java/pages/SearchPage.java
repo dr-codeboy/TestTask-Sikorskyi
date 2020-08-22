@@ -18,9 +18,9 @@ public class SearchPage extends BasePage {
         drill.click();
         Thread.sleep(1000);
         int i = 1;
-        // Переменная requiredNumberOfPagesTest1 находится в классе BasePage и по умолчанию равна 3
+        // Переменная requiredNumberOfProductsTest1 находится в классе BasePage и по умолчанию равна 3
         // измените ее для проверки другого числа страниц
-        while (i <= requiredNumberOfPagesTest1) {
+        while (i <= requiredNumberOfProductsTest1) {
             WebElement discountDrill = getDriver().findElement(By.xpath("(//span[contains(@class,'sticker_discount')]/../../preceding-sibling:: a[@href])[" + i + "]"));
             discountDrill.click();
             Thread.sleep(1000);
@@ -33,7 +33,7 @@ public class SearchPage extends BasePage {
             WebElement plus15ItemsKey = getDriver().findElement(By.cssSelector("a.btn-blue.show-more-link"));
             plus15ItemsKey.sendKeys(Keys.ARROW_UP);
             plus15ItemsKey.sendKeys(Keys.ARROW_UP);
-            Thread.sleep(3000);
+            Thread.sleep(1000);
             plus15ItemsKey.click();
             Thread.sleep(2000);
             i++;
@@ -133,11 +133,16 @@ public class SearchPage extends BasePage {
         for (WebElement we : nameList) {
             nameListInString.add(we.getAttribute("title"));
         }
+        StringBuilder result = new StringBuilder();
+        boolean isIncorrectPrice = false;
         for (int i = 0; i < expectedPriceList.size(); i++) {
-            assertThat(actualNewPriceList.get(i)).as("В товаре с названием: " + nameListInString.get(i) + " обнаружено расхождение фактической цены которая равна: " + actualNewPriceList.get(i) + " и ожидаемой цены которая равна: " + expectedPriceList.get(i)).isEqualTo(expectedPriceList.get(i));
+            if (!actualNewPriceList.get(i).equals(expectedPriceList.get(i))) {
+                isIncorrectPrice = true;
+                result.append("В товаре с названием: ").append(nameListInString.get(i)).append(" обнаружено расхождение фактической цены которая равна: ")
+                        .append(actualNewPriceList.get(i)).append(" и ожидаемой цены которая равна: ").append(expectedPriceList.get(i)).append("\n");
+            }
         }
-
-
+        assertThat(isIncorrectPrice).as(result.toString()).isEqualTo(false);
     }
 }
 
