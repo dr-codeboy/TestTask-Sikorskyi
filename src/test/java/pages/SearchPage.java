@@ -19,7 +19,7 @@ public class SearchPage extends BasePage {
         Thread.sleep(1000);
         int i = 1;
         // Переменная requiredNumberOfProductsTest1 находится в классе BasePage и по умолчанию равна 3
-        // измените ее для проверки другого числа страниц
+        // измените ее для проверки другого числа товаров
         while (i <= requiredNumberOfProductsTest1) {
             WebElement discountDrill = getDriver().findElement(By.xpath("(//span[contains(@class,'sticker_discount')]/../../preceding-sibling:: a[@href])[" + i + "]"));
             discountDrill.click();
@@ -60,8 +60,7 @@ public class SearchPage extends BasePage {
         while (i < (requiredNumberOfPagesTest2 * 15)) {
             ++i;
             WebElement price = getDriver().findElement(By.xpath("(//span[@class='price'])[" + i + "]"));
-            assertThat(price.isDisplayed()).as("Price on element#" + i + " has not been displayed").isTrue();
-            System.out.println("price of the perforator #" + i + " = " + price.getText());
+            assertThat(price.isDisplayed()).as("Price of element#" + i + " has not been displayed").isTrue();
         }
     }
 

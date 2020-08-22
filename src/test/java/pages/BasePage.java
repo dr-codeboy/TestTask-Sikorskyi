@@ -9,7 +9,7 @@ import org.testng.annotations.*;
 
 public abstract class BasePage {
     public static int requiredNumberOfProductsTest1 = 3;
-    public static int requiredNumberOfPagesTest2 = 1;
+    public static int requiredNumberOfPagesTest2 = 2;
     public static int requiredNumberOfPagesTest3 = 3;
     public static int requiredNumberOfPagesTest4 = 2;
     private static WebDriver driver;
@@ -30,7 +30,7 @@ public abstract class BasePage {
         WebDriver driver = getDriver();
         WebElement menu = driver.findElement(By.id("catalog-menu"));
         menu.click();
-        // абсолютный путь на электроинструменты за 2 дня 2 раза поменялся в самом DOMe
+        // путь на электроинструменты за 2 дня 2 раза поменялся
         try {
             WebElement electroinstrument = driver.findElement(By.xpath("//*[text()='Электроинструмент']"));
             electroinstrument.click();
