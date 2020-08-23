@@ -7,6 +7,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.*;
 
+import java.util.concurrent.TimeUnit;
+
 public abstract class BasePage {
     public static int requiredNumberOfProductsTest1 = 3;
     public static int requiredNumberOfPagesTest2 = 2;
@@ -21,12 +23,13 @@ public abstract class BasePage {
     public void setUp() {
         System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
         driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get("https://kulibin.com.ua/");
         driver.manage().window().maximize();
 
     }
     @BeforeMethod
-    public void openElectroinstrumentSection() throws InterruptedException {
+    public void openElectroinstrumentSection() {
         WebDriver driver = getDriver();
         WebElement menu = driver.findElement(By.id("catalog-menu"));
         menu.click();
@@ -34,7 +37,6 @@ public abstract class BasePage {
         try {
             WebElement electroinstrument = driver.findElement(By.xpath("//*[text()='Электроинструмент']"));
             electroinstrument.click();
-            Thread.sleep(1000);
         }
         catch (NoSuchElementException e){
             System.out.println("Путь в 'Электроинструмент' был изменен, если его проправить программа заработает :D");

@@ -1,6 +1,10 @@
 package pages;
 
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -12,48 +16,39 @@ public class SearchPage extends BasePage {
 
     // Тестовое задание №1
     @Test
-    public void testDiscountDrillsPrices() throws InterruptedException {
-
+    public void testDiscountDrillsPrices() {
+        WebDriverWait wait = new WebDriverWait(getDriver(),10);
         WebElement drill = getDriver().findElement(By.xpath("//a[text()='Дрели']"));
         drill.click();
-        Thread.sleep(1000);
         int i = 1;
         // Переменная requiredNumberOfProductsTest1 находится в классе BasePage и по умолчанию равна 3
-        // измените ее для проверки другого числа товаров
+        // измените ее для проверки другого количества товаров
         while (i <= requiredNumberOfProductsTest1) {
-            WebElement discountDrill = getDriver().findElement(By.xpath("(//span[contains(@class,'sticker_discount')]/../../preceding-sibling:: a[@href])[" + i + "]"));
+            WebElement discountDrill = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("(//span[contains(@class,'sticker_discount')]/../../preceding-sibling:: a)[" + i + "]")));
             discountDrill.click();
-            Thread.sleep(1000);
             WebElement oldPrice = getDriver().findElement(By.cssSelector("span.item_old_price.old-price"));
             assertThat(oldPrice.isDisplayed()).as("Old price of element #" + i + "has not been displayed").isTrue();
             WebElement newPrice = getDriver().findElement(By.xpath("(//span[@class='price'])[2]"));
             assertThat(newPrice.isDisplayed()).as("New price of element #" + i + " has not been displayed").isTrue();
             getDriver().navigate().back();
-            Thread.sleep(1000);
-            WebElement plus15ItemsKey = getDriver().findElement(By.cssSelector("a.btn-blue.show-more-link"));
-            plus15ItemsKey.sendKeys(Keys.ARROW_UP);
-            plus15ItemsKey.sendKeys(Keys.ARROW_UP);
-            Thread.sleep(1000);
-            plus15ItemsKey.click();
-            Thread.sleep(2000);
+            WebElement plus15ItemsKey = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("a.btn-blue.show-more-link")));
+            plus15ItemsKey.sendKeys(Keys.ENTER);
             i++;
         }
     }
 
     // Тестовое здание №2
     @Test
-    public void testPerforatorsPrices() throws InterruptedException {
+    public void testPerforatorsPrices() {
 
         WebElement perforators = getDriver().findElement(By.xpath("//a[@title='Перфораторы']"));
         perforators.click();
-        Thread.sleep(1000);
         WebElement plus15ItemsKey = getDriver().findElement(By.cssSelector("a.btn-blue.show-more-link"));
         int j = 1;
         // Переменная requiredNumberOfPagesTest2 находится в классе BasePage и по умолчанию равна 2
-        // измените ее для проверки другого числа страниц
+        // измените ее для проверки другого количества страниц
         while (j <= requiredNumberOfPagesTest2) {
             plus15ItemsKey.click();
-            Thread.sleep(1000);
             j++;
         }
         int i = 0;
@@ -66,18 +61,16 @@ public class SearchPage extends BasePage {
 
     // Тестовое задание №3
     @Test
-    public void outputScrewdriversNames() throws InterruptedException {
+    public void outputScrewdriversNames() {
 
         WebElement screwdriver = getDriver().findElement(By.xpath("//a[@title='Шуруповерты']"));
         screwdriver.click();
-        Thread.sleep(1000);
         WebElement plus15ItemsKey = getDriver().findElement(By.cssSelector("a.btn-blue.show-more-link"));
         // Переменная requiredNumberOfPagesTest3 находится в классе BasePage и по умолчанию равна 3
-        // измените ее для проверки другого числа страниц
+        // измените ее для проверки другого количества страниц
         int j = 1;
         while (j <= requiredNumberOfPagesTest3) {
             plus15ItemsKey.click();
-            Thread.sleep(2000);
             j++;
         }
         List<WebElement> screwdriverList = getDriver().findElements(By.xpath("//img[contains(@src,'United_states')]/../../following:: h4[1]/a/span"));
@@ -88,17 +81,15 @@ public class SearchPage extends BasePage {
 
     //     Тестовое задание №4
     @Test
-    public void newPriceCalculation() throws InterruptedException {
+    public void newCircularSawPriceCalculation() {
         WebElement circularSaws = getDriver().findElement(By.xpath("//a[@title='Болгарки']"));
         circularSaws.click();
-        Thread.sleep(1000);
         WebElement plus15ItemsKey = getDriver().findElement(By.cssSelector("a.btn-blue.show-more-link"));
         int j = 1;
         // Переменная requiredNumberOfPagesTest4 находится в классе BasePage и по умолчанию равна 2
-        // измените ее для проверки другого числа страниц
+        // измените ее для проверки другого количества страниц
         while (j <= requiredNumberOfPagesTest4) {
             plus15ItemsKey.click();
-            Thread.sleep(2000);
             j++;
         }
         List<WebElement> sawsList = getDriver().findElements(By.xpath("//span[contains(@class,'sticker_discount')]"));
@@ -108,7 +99,6 @@ public class SearchPage extends BasePage {
             double i = Double.parseDouble(s);
             pureDiscountPercentList.add(i / 100);
         }
-
         List<WebElement> sawsOldPriceList = getDriver().findElements(By.xpath("//span[contains(@class,'sticker_discount')]/../../following:: span[@class='old-price']"));
         List<Double> pureOldPriceList = new ArrayList<>();
         for (WebElement we : sawsOldPriceList) {
@@ -133,17 +123,14 @@ public class SearchPage extends BasePage {
             nameListInString.add(we.getAttribute("title"));
         }
         StringBuilder result = new StringBuilder();
-        boolean isIncorrectPrice = false;
+        boolean isIncorrectPrice = true;
         for (int i = 0; i < expectedPriceList.size(); i++) {
             if (!actualNewPriceList.get(i).equals(expectedPriceList.get(i))) {
-                isIncorrectPrice = true;
+                isIncorrectPrice = false;
                 result.append("В товаре с названием: ").append(nameListInString.get(i)).append(" обнаружено расхождение фактической цены которая равна: ")
                         .append(actualNewPriceList.get(i)).append(" и ожидаемой цены которая равна: ").append(expectedPriceList.get(i)).append("\n");
             }
         }
-        assertThat(isIncorrectPrice).as(result.toString()).isEqualTo(false);
+        assertThat(isIncorrectPrice).as(result.toString()).isTrue();
     }
 }
-
-
-
