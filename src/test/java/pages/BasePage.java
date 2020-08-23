@@ -10,14 +10,13 @@ import org.testng.annotations.*;
 import java.util.concurrent.TimeUnit;
 
 public abstract class BasePage {
+    static WebDriver driver;
     public static int requiredNumberOfProductsTest1 = 3;
     public static int requiredNumberOfPagesTest2 = 2;
     public static int requiredNumberOfPagesTest3 = 3;
     public static int requiredNumberOfPagesTest4 = 2;
-    private static WebDriver driver;
-    public static WebDriver getDriver(){
-        return driver;
-    }
+
+
 
     @BeforeClass
     public void setUp() {
@@ -30,7 +29,6 @@ public abstract class BasePage {
     }
     @BeforeMethod
     public void openElectroinstrumentSection() {
-        WebDriver driver = getDriver();
         WebElement menu = driver.findElement(By.id("catalog-menu"));
         menu.click();
         // путь на электроинструменты за 2 дня 2 раза поменялся
