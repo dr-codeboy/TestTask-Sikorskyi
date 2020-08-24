@@ -28,7 +28,7 @@ public class SearchPage extends BasePage {
             WebElement newPrice = driver.findElement(By.xpath("(//span[@class='price'])[2]"));
             assertThat(newPrice.isDisplayed()).as("New price of element #" + i + " has not been displayed").isTrue();
             driver.navigate().back();
-            WebElement plus15ItemsKey = driver.findElement(By.cssSelector("a.btn-blue.show-more-link"));
+            WebElement plus15ItemsKey = driver.findElement(Plus15Item);
             plus15ItemsKey.sendKeys(Keys.ENTER);
             if(requiredNumberOfProductsTest1>4){
                 for(int j = 4; j < i; j++) {
@@ -45,7 +45,7 @@ public class SearchPage extends BasePage {
 
         WebElement perforators = driver.findElement(By.xpath("//a[@title='Перфораторы']"));
         perforators.click();
-        WebElement plus15ItemsKey = driver.findElement(By.cssSelector("a.btn-blue.show-more-link"));
+        WebElement plus15ItemsKey = driver.findElement(Plus15Item);
         int j = 1;
         // Переменная requiredNumberOfPagesTest2 находится в классе BasePage и по умолчанию равна 2
         // измените ее для проверки другого количества страниц
@@ -67,7 +67,7 @@ public class SearchPage extends BasePage {
 
         WebElement screwdriver = driver.findElement(By.xpath("//a[@title='Шуруповерты']"));
         screwdriver.click();
-        WebElement plus15ItemsKey = driver.findElement(By.cssSelector("a.btn-blue.show-more-link"));
+        WebElement plus15ItemsKey = driver.findElement(Plus15Item);
         // Переменная requiredNumberOfPagesTest3 находится в классе BasePage и по умолчанию равна 3
         // измените ее для проверки другого количества страниц
         int j = 1;
@@ -86,7 +86,7 @@ public class SearchPage extends BasePage {
     public void newCircularSawPriceCalculation() {
         WebElement circularSaws = driver.findElement(By.xpath("//a[@title='Болгарки']"));
         circularSaws.click();
-        WebElement plus15ItemsKey = driver.findElement(By.cssSelector("a.btn-blue.show-more-link"));
+        WebElement plus15ItemsKey = driver.findElement(Plus15Item);
         int j = 1;
         // Переменная requiredNumberOfPagesTest4 находится в классе BasePage и по умолчанию равна 2
         // измените ее для проверки другого количества страниц

@@ -11,12 +11,11 @@ import java.util.concurrent.TimeUnit;
 
 public abstract class BasePage {
     static WebDriver driver;
-    public static int requiredNumberOfProductsTest1 = 3;
-    public static int requiredNumberOfPagesTest2 = 2;
-    public static int requiredNumberOfPagesTest3 = 3;
-    public static int requiredNumberOfPagesTest4 = 2;
-
-
+    public int requiredNumberOfProductsTest1 = 3;
+    public int requiredNumberOfPagesTest2 = 2;
+    public int requiredNumberOfPagesTest3 = 3;
+    public int requiredNumberOfPagesTest4 = 2;
+    public By Plus15Item = (By.cssSelector("a.btn-blue.show-more-link"));
 
     @BeforeClass
     public void setUp() {
