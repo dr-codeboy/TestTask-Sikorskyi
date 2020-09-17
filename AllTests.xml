@@ -1,0 +1,9 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+<suite name="AllTests" verbose="2" annotations="JDK">
+
+    <test name="Regression" preserve-order="true" >
+        <classes>
+            <class name="pages.SearchPage" />
+        </classes>
+    </test>
+</suite>

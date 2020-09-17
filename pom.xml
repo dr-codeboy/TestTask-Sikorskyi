@@ -32,11 +32,38 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+
+
     </dependencies>
 
     <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
+
+    <build>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <configuration>
+                    <suiteXmlFiles>
+                            <suiteXmlFile>AllTests.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                    <reportsDirectory>C:\Windows\System32\config\systemprofile\AppData\Local\Jenkins.jenkins\workspace\nextTry\target</reportsDirectory>
+                </configuration>
+            </plugin>
+        </plugins>
+
+    </build>
 
 </project>

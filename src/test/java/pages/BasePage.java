@@ -1,5 +1,6 @@
 package pages;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -10,29 +11,29 @@ import org.testng.annotations.*;
 import java.util.concurrent.TimeUnit;
 
 public abstract class BasePage {
-    static WebDriver driver;
-    public int requiredNumberOfProductsTest1 = 3;
-    public int requiredNumberOfPagesTest2 = 2;
-    public int requiredNumberOfPagesTest3 = 3;
-    public int requiredNumberOfPagesTest4 = 2;
-    public By Plus15Item = (By.cssSelector("a.btn-blue.show-more-link"));
+    WebDriver driver;
+    int requiredNumberOfProductsTest1 = 3;
+    int requiredNumberOfPagesTest2 = 5;
+    int requiredNumberOfPagesTest3 = 3;
+    int requiredNumberOfPagesTest4 = 2;
+    final String MAIN_URL = "https://kulibin.com.ua/";
+    final By PLUS_15_KEY = (By.cssSelector("a.btn-blue.show-more-link"));
 
-    @BeforeClass
+    @BeforeSuite
     public void setUp() {
-        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriver.exe");
+        WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.get("https://kulibin.com.ua/");
+        driver.get(MAIN_URL);
         driver.manage().window().maximize();
-
     }
     @BeforeMethod
-    public void openElectroinstrumentSection() {
+    void openElectroinstrumentSection() {
         WebElement menu = driver.findElement(By.id("catalog-menu"));
         menu.click();
         // путь на электроинструменты за 2 дня 2 раза поменялся
         try {
-            WebElement electroinstrument = driver.findElement(By.xpath("//*[text()='Электроинструмент']"));
+            WebElement electroinstrument = driver.findElement(By.xpath("//a[contains(@href,'/elektroinstrument')]"));
             electroinstrument.click();
         }
         catch (NoSuchElementException e){
@@ -40,13 +41,14 @@ public abstract class BasePage {
         }
     }
 
-    @AfterClass
-    public void tearDown() {
+    @AfterMethod
+    void goBack() {
+        driver.get(MAIN_URL);
+    }
+
+    @AfterSuite
+    void tearDown() {
         driver.quit();
     }
 
-    @AfterMethod
-    public void goBack() {
-        driver.get("https://kulibin.com.ua/");
-    }
 }

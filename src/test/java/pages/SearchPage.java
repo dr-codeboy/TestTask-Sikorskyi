@@ -1,8 +1,10 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -15,12 +17,12 @@ public class SearchPage extends BasePage {
     // Тестовое задание №1
     @Test
     public void testDiscountDrillsPrices() {
-        WebElement drill = driver.findElement(By.xpath("//a[text()='Дрели']"));
+        WebElement drill = driver.findElement(By.xpath("(//a[@href='/catalog/dreli/'])[2]"));
         drill.click();
         int i = 1;
         // Переменная requiredNumberOfProductsTest1 находится в классе BasePage и по умолчанию равна 3
         // измените ее для проверки другого количества товаров
-        while (i <= requiredNumberOfProductsTest1) {
+        while (i < requiredNumberOfProductsTest1) {
             WebElement discountDrill = driver.findElement(By.xpath("(//span[contains(@class,'sticker_discount')]/../../preceding-sibling:: a)[" + i + "]"));
             discountDrill.sendKeys(Keys.ENTER);
             WebElement oldPrice = driver.findElement(By.cssSelector("span.item_old_price.old-price"));
@@ -28,10 +30,10 @@ public class SearchPage extends BasePage {
             WebElement newPrice = driver.findElement(By.xpath("(//span[@class='price'])[2]"));
             assertThat(newPrice.isDisplayed()).as("New price of element #" + i + " has not been displayed").isTrue();
             driver.navigate().back();
-            WebElement plus15ItemsKey = driver.findElement(Plus15Item);
+            WebElement plus15ItemsKey = driver.findElement(PLUS_15_KEY);
             plus15ItemsKey.sendKeys(Keys.ENTER);
-            if(requiredNumberOfProductsTest1>4){
-                for(int j = 4; j < i; j++) {
+            if (requiredNumberOfProductsTest1 > 4) {
+                for (int j = 4; j < i; j++) {
                     plus15ItemsKey.sendKeys(Keys.ENTER);
                 }
             }
@@ -43,37 +45,43 @@ public class SearchPage extends BasePage {
     @Test
     public void testPerforatorsPrices() {
 
-        WebElement perforators = driver.findElement(By.xpath("//a[@title='Перфораторы']"));
+        WebElement perforators = driver.findElement(By.xpath("(//a[@href='/catalog/perforatory/'])[2]"));
         perforators.click();
-        WebElement plus15ItemsKey = driver.findElement(Plus15Item);
+        WebElement plus15ItemsKey = driver.findElement(PLUS_15_KEY);
         int j = 1;
-        // Переменная requiredNumberOfPagesTest2 находится в классе BasePage и по умолчанию равна 2
+        // Переменная requiredNumberOfPagesTest2 находится в классе BasePage и по умолчанию равна 5
         // измените ее для проверки другого количества страниц
-        while (j <= requiredNumberOfPagesTest2) {
-            plus15ItemsKey.click();
-            j++;
+        while (j < requiredNumberOfPagesTest2) {
+            try {
+                plus15ItemsKey.click();
+                j++;
+            } catch (ElementNotInteractableException ex) {
+                break;
+            }
         }
-        int i = 0;
-        while (i < (requiredNumberOfPagesTest2 * 15)) {
-            ++i;
-            WebElement price = driver.findElement(By.xpath("(//span[@class='price'])[" + i + "]"));
-            assertThat(price.isDisplayed()).as("Price of element#" + i + " has not been displayed").isTrue();
+        List<WebElement> priceList = driver.findElements(By.xpath("//span[@class='price']"));
+        for (int i = 0; i < priceList.size(); i++) {
+            assertThat(priceList.get(i).isDisplayed()).as("Price of element#" + (i + 1) + " has not been displayed").isTrue();
         }
     }
 
     // Тестовое задание №3
     @Test
     public void outputScrewdriversNames() {
-
-        WebElement screwdriver = driver.findElement(By.xpath("//a[@title='Шуруповерты']"));
+        WebElement screwdriver = driver.findElement(By.xpath("(//a[@href='/catalog/shurupoverty/'])[2]"));
         screwdriver.click();
-        WebElement plus15ItemsKey = driver.findElement(Plus15Item);
+        WebElement plus15ItemsKey = driver.findElement(PLUS_15_KEY);
         // Переменная requiredNumberOfPagesTest3 находится в классе BasePage и по умолчанию равна 3
         // измените ее для проверки другого количества страниц
         int j = 1;
-        while (j <= requiredNumberOfPagesTest3) {
-            plus15ItemsKey.click();
-            j++;
+        while (j < requiredNumberOfPagesTest3) {
+            try {
+                plus15ItemsKey.click();
+                j++;
+                System.out.println(j);
+            } catch (ElementNotInteractableException ex) {
+                break;
+            }
         }
         List<WebElement> screwdriverList = driver.findElements(By.xpath("//img[contains(@src,'United_states')]/../../following:: h4[1]/a/span"));
         for (WebElement we : screwdriverList) {
@@ -84,13 +92,13 @@ public class SearchPage extends BasePage {
     //     Тестовое задание №4
     @Test
     public void newCircularSawPriceCalculation() {
-        WebElement circularSaws = driver.findElement(By.xpath("//a[@title='Болгарки']"));
+        WebElement circularSaws = driver.findElement(By.xpath("(//a[@href='/catalog/bolgarki/'])[2]"));
         circularSaws.click();
-        WebElement plus15ItemsKey = driver.findElement(Plus15Item);
+        WebElement plus15ItemsKey = driver.findElement(PLUS_15_KEY);
         int j = 1;
         // Переменная requiredNumberOfPagesTest4 находится в классе BasePage и по умолчанию равна 2
         // измените ее для проверки другого количества страниц
-        while (j <= requiredNumberOfPagesTest4) {
+        while (j < requiredNumberOfPagesTest4) {
             plus15ItemsKey.click();
             j++;
         }
@@ -104,7 +112,7 @@ public class SearchPage extends BasePage {
         List<WebElement> sawsOldPriceList = driver.findElements(By.xpath("//span[contains(@class,'sticker_discount')]/../../following:: span[@class='old-price']"));
         List<Double> pureOldPriceList = new ArrayList<>();
         for (WebElement we : sawsOldPriceList) {
-            String s = (we.getText()).replace("грн.", "").replace(" ", "");
+            String s = ((we.getText()).replace("грн.", "").replace(" ", ""));
             double i = Double.parseDouble(s);
             pureOldPriceList.add(i);
         }
