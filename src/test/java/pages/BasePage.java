@@ -11,7 +11,7 @@ import org.testng.annotations.*;
 import java.util.concurrent.TimeUnit;
 
 public abstract class BasePage {
-    protected WebDriver driver;
+    WebDriver driver;
     int requiredNumberOfProductsTest1 = 3;
     int requiredNumberOfPagesTest2 = 5;
     int requiredNumberOfPagesTest3 = 3;
